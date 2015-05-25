@@ -32,7 +32,6 @@ public class PuzzlePanel extends JPanel{
         }
 
         buttonGrid = new PuzzleButton[size][size];
-        puzzle.createNewWordPuzzle(size);
         for (int row = 0; row < size; row++) {
             for (int column = 0; column < size; column++) {
                 buttonGrid[row][column] = new PuzzleButton(puzzle.getLetter(row, column), this); //create new buttons

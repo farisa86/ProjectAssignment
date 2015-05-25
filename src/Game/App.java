@@ -11,22 +11,24 @@ import javax.swing.JDialog;
 import javax.swing.JSlider;
 
 import Puzzle.WordPuzzle;
+import Puzzle.WordPuzzleGenerator;
 
 /**
  * Created by jc302404 on 20/04/2015.
  */
 public class App {
 	
-	WordPuzzle puzzle;
+	private WordPuzzle puzzle;//defining a puzzle
+    private WordPuzzleGenerator generator = new WordPuzzleGenerator(3);
 	
     public static void main(String[] args) {
-    	App app = new App();
+    	App app = new App();//creating an object of App
     	app.run();
     }
     
     public void run(){
         final MainFrame frame = new MainFrame();
-        puzzle = new WordPuzzle(3);
+        puzzle = generator.createWordPuzzle();
         frame.puzzlePanel.createButtons(3, puzzle);
         
         
@@ -45,6 +47,8 @@ public class App {
                 confirmButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        generator.setSize(sliderBar.getValue());
+                        puzzle = generator.createWordPuzzle();
                     	frame.puzzlePanel.createButtons(sliderBar.getValue(), puzzle);
                         resizeDialog.dispose(); //dispose of resize window when user presses 'ok'
 
@@ -97,7 +101,7 @@ public class App {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random rand = new Random();
-                String word = puzzle.getWord(rand.nextInt(frame.puzzlePanel.currentSize));
+                String word = puzzle.getWordAtRow(rand.nextInt(frame.puzzlePanel.currentSize));
                 frame.hintBar.setText("One of the words is: " + word);
             }
         });
